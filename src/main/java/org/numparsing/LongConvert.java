@@ -23,7 +23,7 @@ public final class LongConvert extends Convert {
         long placeValue = (long) Math.pow(radix, pos);
         int formalValue = getNumericValue(ch, radix);
         if (formalValue == -1)
-            throw new NumberFormatException(String.format("Invalid character found: '%s'", ch));
+            throw new NumberFormatException("Invalid character found: '%s'".formatted(ch));
         return formalValue * placeValue;
     }
 }

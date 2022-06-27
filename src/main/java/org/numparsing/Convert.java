@@ -4,6 +4,8 @@ import java.util.List;
 
 public abstract sealed class Convert permits LongConvert, DoubleConvert {
 
+    private static final int MAX_RADIX = 36;
+
     private static final char POSITIVE_SIGN = '+';
     private static final char NEGATIVE_SIGN = '-';
 
@@ -12,14 +14,10 @@ public abstract sealed class Convert permits LongConvert, DoubleConvert {
             Character.toString(NEGATIVE_SIGN)
     );
 
-    public static void main(String[] args) {
-        var c = new LongConvert();
-        //System.out.println(c.parseInt("10") * c.parseInt("12"));
-        System.out.println(c.parseLong("z", 36));
-        //System.out.println(c.parseLong("65535", 32) == Long.parseLong("65535", 32));
-    }
-
     protected int getNumericValue(char ch, int radix) {
+        if (radix > MAX_RADIX)
+            throw new IllegalArgumentException("Radix '%d' is too high!".formatted(radix));
+
         int val = -1;
         if (isDigit(ch))
             val = (int) ch - 48; // the first number's code in the ASCII table is 48
@@ -28,6 +26,7 @@ public abstract sealed class Convert permits LongConvert, DoubleConvert {
                 val = 10 + ((int) ch - 65); // the first uppercase letter's code in ASCII is 65 ('A')
             else
                 val = 10 + ((int) ch - 97); // the first uppercase letter's code in ASCII is 97 ('a')
+
         return val < radix ? val : -1;
     }
 
