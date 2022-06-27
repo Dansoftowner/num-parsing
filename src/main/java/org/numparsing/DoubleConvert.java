@@ -30,11 +30,12 @@ public final class DoubleConvert extends Convert {
             return integer;
         }
 
-        double fraction = IntStream.range(0, numberString.length())
-                .mapToDouble(i -> getRealValueAtPos(numberString, i, radix))
+        double fraction = IntStream.range(0, fractionPortion.length())
+                .mapToDouble(i -> getRealValueAtPos(fractionPortion, i, radix))
                 .sum();
 
-        return Math.signum(integer) * (Math.abs(integer) + fraction);
+        double signum = integer == 0 ? 1 : Math.signum((double)integer);
+        return signum * (Math.abs(integer) + fraction);
     }
 
     public double getRealValueAtPos(String numberString, int index, int radix) {
