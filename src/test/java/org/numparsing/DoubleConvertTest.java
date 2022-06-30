@@ -22,4 +22,11 @@ public class DoubleConvertTest {
         double actual = (double) Math.round(underTest.parseDouble(numberString) * precision) / precision;
         assertEquals(expected, actual);
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = {"fractionsBase10.csv"})
+    void shouldConvertNumbersToString(double number) {
+        var underTest = new DoubleConvert();
+        assertEquals(Double.toString(number), underTest.toString(number, 10));
+    }
 }

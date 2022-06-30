@@ -6,10 +6,15 @@ public final class DoubleConvert extends Convert {
 
     private static final char POINT = '.';
 
-    private final LongConvert longConvert;
+    private final LongConvert longConvert = new LongConvert();
 
-    public DoubleConvert() {
-        longConvert = new LongConvert();
+    public String toString(double number, int radix) {
+        long integerPart = (long)number;
+        double fractionPart = Math.abs(number) - Math.abs(integerPart);
+        while (fractionPart % 1 != 0) {
+            fractionPart *= radix;
+        }
+        return longConvert.toString(integerPart, radix) + "." + longConvert.toString((long)fractionPart, radix);
     }
 
     public double parseDouble(String numberString) {

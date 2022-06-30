@@ -12,4 +12,12 @@ public class LongConvertTest {
         var underTest = new LongConvert();
         assertEquals(Long.parseLong(numberString, radix), underTest.parseLong(numberString, radix));
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = {"integerNumbers.csv"})
+    void shouldConvertNumbersToString(String numberAsString, int radix) {
+        long number = Long.parseLong(numberAsString, radix);
+        var underTest = new LongConvert();
+        assertEquals(Long.toString(number, radix), underTest.toString(number, radix));
+    }
 }

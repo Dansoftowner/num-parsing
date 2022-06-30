@@ -4,6 +4,19 @@ import java.util.stream.IntStream;
 
 public final class LongConvert extends Convert {
 
+    public String toString(long number, int radix) {
+        var stringBuilder = new StringBuilder();
+        long n = Math.abs(number);
+        while (n != 0) {
+            stringBuilder.insert(0, getCharForNumber((int) (n % radix), radix, false));
+            n /= radix;
+        }
+        // in case of 0:
+        if (stringBuilder.isEmpty()) stringBuilder.append(getCharForNumber((int) n, radix, false));
+        stringBuilder.insert(0, number < 0 ? "-" : "");
+        return stringBuilder.toString();
+    }
+
     public long parseLong(String numberString) {
         return parseLong(numberString, 10);
     }

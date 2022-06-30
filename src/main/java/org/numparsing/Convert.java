@@ -14,9 +14,26 @@ public abstract sealed class Convert permits LongConvert, DoubleConvert {
             Character.toString(NEGATIVE_SIGN)
     );
 
-    protected int getNumericValue(char ch, int radix) {
+    private void requireAppropriateRadix(int radix) {
         if (radix > MAX_RADIX)
             throw new IllegalArgumentException("Radix '%d' is too high!".formatted(radix));
+    }
+
+    protected char getCharForNumber(int num, int radix, boolean preferUppercase) {
+        requireAppropriateRadix(radix);
+        if (num < 0) throw new IllegalArgumentException();
+        if (num >= radix) throw new IllegalArgumentException();
+
+        if (num < 10)
+            return (char) (48 + num);
+        else {
+            int firstLetterCode = preferUppercase ? 65 : 97;
+            return (char) (firstLetterCode + num - 10);
+        }
+    }
+
+    protected int getNumericValue(char ch, int radix) {
+        requireAppropriateRadix(radix);
 
         int val = -1;
         if (isDigit(ch))
